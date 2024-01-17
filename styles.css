@@ -13,7 +13,7 @@ body {
 }
 
 .box {
-    background-color: rgb(67, 67, 67);
+    background-color: #434343;
 }
 
 .options {
@@ -28,7 +28,8 @@ body {
 .reset,
 .rainbow,
 .darken,
-.color {
+.color,
+.erase {
     display: inline-block;
     outline: none;
     cursor: pointer;
