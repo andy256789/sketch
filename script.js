@@ -1,18 +1,21 @@
-const container = document.querySelector(".container");
-const changeSize = document.querySelector(".size");
-const resetSketch = document.querySelector(".reset");
-
-const rainbow = document.querySelector(".rainbow");
-const color = document.querySelector(".color");
-const colorInput = document.querySelector("#colorInput");
-
-let mouseClicked = false;
 const DEFAULT_SIZE = 16;
 const DEFAULT_MODE = "color";
 const DEFAULT_COLOR = "aliceblue";
 let lastColor = DEFAULT_COLOR;
 let lastSize = DEFAULT_SIZE;
 let lastMode = DEFAULT_MODE;
+
+const container = document.querySelector(".container");
+const changeSize = document.querySelector(".size");
+const resetSketch = document.querySelector(".reset");
+
+const rainbow = document.querySelector(".rainbow");
+const color = document.querySelector(".color");
+const darken = document.querySelector(".darken");
+
+const colorInput = document.querySelector("#colorInput");
+
+let mouseClicked = false;
 
 createLayout(DEFAULT_SIZE);
 
@@ -42,6 +45,16 @@ function getRandomColor() {
     return "#"+Math.floor(Math.random()*16777215).toString(16);
 }
 
+function darkenBox(event) {
+    let currentBrightness = event.target.dataset.brightness || 100;
+    currentBrightness = parseInt(currentBrightness) - 10;
+
+    if (currentBrightness >= 0) {
+        event.target.style.filter = `brightness(${currentBrightness}%)`;
+        event.target.dataset.brightness = currentBrightness;
+    }
+}
+
 function changeColor(event,mode){
     switch(mode){
         case "color":
@@ -52,6 +65,10 @@ function changeColor(event,mode){
             if(event.type=="mousedown"){event.target.style.backgroundColor = getRandomColor();}
             if(mouseClicked===true){event.target.style.backgroundColor = getRandomColor();}
             break;
+        case "darken":
+            if(event.type=="mousedown"){darkenBox(event);}
+            if(mouseClicked===true){darkenBox(event);}
+
     }
 }
 
@@ -76,7 +93,10 @@ rainbow.addEventListener("click", () => {
 color.addEventListener("click", () => {
     lastMode = "color";
 });
+darken.addEventListener("click", () => {
+    lastMode = "darken";
+});
 
 colorInput.addEventListener("input", () => {
     lastColor = colorInput.value;
-})
+});
