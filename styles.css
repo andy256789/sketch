@@ -63,7 +63,6 @@ body {
 .random{
     flex: 1;
     margin-right: auto;
-    color: rgb(23, 32, 3);
 }
 
 .modes{
@@ -80,15 +79,13 @@ body {
     border: 0px;
 }
 
+.colorPicker{
+    display: flex;
+    width: 150px;
+    align-items: flex-end;
+    justify-content: center;
+}
+
 .container>* {
     flex: 1;
-}
-
-.random{
-
-}
-
-.mode {
-    display: flex;
-    margin-top: 20px;
 }

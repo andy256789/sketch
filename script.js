@@ -4,10 +4,13 @@ const resetSketch = document.querySelector(".reset");
 
 const rainbow = document.querySelector(".rainbow");
 const color = document.querySelector(".color");
+const colorInput = document.querySelector("#colorInput");
 
 let mouseClicked = false;
 const DEFAULT_SIZE = 16;
 const DEFAULT_MODE = "color";
+const DEFAULT_COLOR = "aliceblue";
+let lastColor = DEFAULT_COLOR;
 let lastSize = DEFAULT_SIZE;
 let lastMode = DEFAULT_MODE;
 
@@ -42,8 +45,8 @@ function getRandomColor() {
 function changeColor(event,mode){
     switch(mode){
         case "color":
-            if(event.type=="mousedown"){event.target.style.backgroundColor = "aliceblue";}
-            if(mouseClicked===true){event.target.style.backgroundColor = "aliceblue";}
+            if(event.type=="mousedown"){event.target.style.backgroundColor = lastColor;}
+            if(mouseClicked===true){event.target.style.backgroundColor = lastColor;}
             break;
         case "rainbow":
             if(event.type=="mousedown"){event.target.style.backgroundColor = getRandomColor();}
@@ -73,3 +76,7 @@ rainbow.addEventListener("click", () => {
 color.addEventListener("click", () => {
     lastMode = "color";
 });
+
+colorInput.addEventListener("input", () => {
+    lastColor = colorInput.value;
+})
