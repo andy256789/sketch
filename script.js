@@ -1,38 +1,20 @@
 const container = document.querySelector(".container");
-const button = document.querySelector(".size");
+const changeSize = document.querySelector(".size");
+const resetSketch = document.querySelector(".reset");
 
+const rainbow = document.querySelector(".rainbow");
+const color = document.querySelector(".color");
+
+let mouseClicked = false;
 const DEFAULT_SIZE = 16;
+const DEFAULT_MODE = "color";
+let lastSize = DEFAULT_SIZE;
+let lastMode = DEFAULT_MODE;
 
 createLayout(DEFAULT_SIZE);
 
-let mouseClicked = false;
-document.addEventListener("mousedown", () => {
-    mouseClicked = true;
-});
-document.addEventListener("mouseup", () => {
-    mouseClicked = false;
-});
-
-let lastSize = DEFAULT_SIZE;
-
-button.addEventListener("click", () => {
-    let size;
-    do {
-        size = prompt("Enter size: ",DEFAULT_SIZE);
-    } while (size > 100);
-
-    createLayout(size);
-});
-
-function changeColor(event){
-    if(event.type=="mousedown"){
-        event.target.classList.add("over");
-    }
-
-    if(mouseClicked===true){
-        event.target.classList.add("over");
-    }
-}
+document.addEventListener("mousedown", () => {mouseClicked = true});
+document.addEventListener("mouseup", () => {mouseClicked = false});
 
 function createLayout(size) {
     container.replaceChildren();
@@ -48,7 +30,46 @@ function createLayout(size) {
     const boxes = document.querySelectorAll(".box");
 
     boxes.forEach(box => {
-        box.addEventListener("mouseover", (e) => changeColor(e));
-        box.addEventListener("mousedown", (e) => changeColor(e));
+        box.addEventListener("mouseover", (e) => changeColor(e,lastMode));
+        box.addEventListener("mousedown", (e) => changeColor(e,lastMode));
     });
 }
+
+function getRandomColor() {
+    return "#"+Math.floor(Math.random()*16777215).toString(16);
+}
+
+function changeColor(event,mode){
+    switch(mode){
+        case "color":
+            if(event.type=="mousedown"){event.target.style.backgroundColor = "aliceblue";}
+            if(mouseClicked===true){event.target.style.backgroundColor = "aliceblue";}
+            break;
+        case "rainbow":
+            if(event.type=="mousedown"){event.target.style.backgroundColor = getRandomColor();}
+            if(mouseClicked===true){event.target.style.backgroundColor = getRandomColor();}
+            break;
+    }
+}
+
+changeSize.addEventListener("click", () => {
+    let size;
+    do {
+        size = prompt("Enter size: ",DEFAULT_SIZE);
+    } while (size > 100);
+
+    lastSize = size;
+    createLayout(size);
+});
+
+resetSketch.addEventListener("click", () => {
+    createLayout(lastSize);
+});
+
+rainbow.addEventListener("click", () => {
+    lastMode = "rainbow";
+});
+
+color.addEventListener("click", () => {
+    lastMode = "color";
+});
